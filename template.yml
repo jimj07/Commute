@@ -20,14 +20,20 @@ Resources:
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
-      Events:
-        GetEvent:
-          Type: Api
-          Properties:
-            Path: /mytrip
-            Method: get
-        PostEvent:
-          Type: Api
-          Properties:
-            Path: /
-            Method: post
+  ProxyResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref CommuteLambdaProxy
+      ParentId: !GetAtt [CommuteLambdaProxy, RootResourceId]
+      PathPart: '{proxy+}'
+  ProxyResourceANY:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CommuteLambdaProxy
+      ResourceId: !Ref ProxyResource
+      HttpMethod: ANY      
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: GET
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Commute.Arn}/invocations
