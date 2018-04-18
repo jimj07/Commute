@@ -1,6 +1,6 @@
 {
-    "name": "express-HelloWorld",
-    "description": "Hello World ExpressJS WebService",
+    "name": "nsw-commute",
+    "description": "A wrapper for nsw trip planner api",
     "version": "0.0.1",
     "private": true,
     "dependencies": {
