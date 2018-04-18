@@ -3,7 +3,7 @@ const app = express();
 
 app.get('/mytrip', (req, res) => {
   res.send({
-    "My Trip": "Hello World!"
+    "Output": "Hello World!"
   });
 });
 
